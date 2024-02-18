@@ -14,9 +14,10 @@ public class ItemNextGame {
         itemStack.setAmount(1);
         itemStack.getItemMeta().setDisplayName("再来一局");
         List<String> lore = new ArrayList<>();
+        lore.add(" ");
         lore.add(ChatColor.GREEN+"愣着干啥呀");
         lore.add(ChatColor.GREEN+"点它开下一局啊");
-        lore.add(ChatColor.DARK_GRAY+"MoBoxMC");
+        lore.add(ChatColor.DARK_GRAY+"");
         itemStack.getItemMeta().setLore(lore);
         return itemStack;
     }

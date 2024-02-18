@@ -1,5 +1,6 @@
 package org.mossmc.mosscg.MoBoxCore.Info;
 
+import org.bukkit.Material;
 import org.mossmc.mosscg.MoBoxCore.Main;
 
 public class InfoGroupBackend {

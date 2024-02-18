@@ -1,5 +1,7 @@
 package org.mossmc.mosscg.MoBoxCore.Listener;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +24,7 @@ public class ListenerChat implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         event.getRecipients().clear();
-        event.setFormat(ChatChannel.getPlayerChatPrefix(uuid)+event.getPlayer().getDisplayName()+ChatChannel.getPlayerChatColor(uuid)+": "+event.getMessage());
+        event.setFormat(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(event.getPlayer(),ChatChannel.getPlayerChatPrefix(uuid)+event.getPlayer().getDisplayName()+ChatChannel.getPlayerChatColor(uuid))) +": "+event.getMessage());
         event.getRecipients().addAll(ChatChannel.getPlayerReceiver(uuid));
     }
 }
