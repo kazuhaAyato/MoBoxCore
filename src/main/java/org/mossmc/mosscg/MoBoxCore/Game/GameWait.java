@@ -1,5 +1,7 @@
 package org.mossmc.mosscg.MoBoxCore.Game;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -35,10 +37,9 @@ public class GameWait {
                 int playerNow = Main.instance.getServer().getOnlinePlayers().size();
                 if (playerNow < GameBasicInfo.getGame.minPlayer()) {
                     remainSecond = GameBasicInfo.getGame.waitTime();
-                    String titleMain = ChatColor.AQUA+String.valueOf(playerNow)+" "+ChatColor.WHITE+"/ "+ChatColor.AQUA+GameBasicInfo.getGame.maxPlayer();
-                    String titleSub = ChatColor.GREEN+"正在等待更多玩家加入游戏...";
+                    TextComponent textComponent = new TextComponent(ChatColor.GREEN+"正在等待更多玩家加入游戏...");
                     Main.instance.getServer().getOnlinePlayers().forEach(player -> {
-                        player.sendTitle(titleMain,titleSub);
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, textComponent);
                     });
                     isReduced[0] = false;
                 } else {
@@ -47,12 +48,14 @@ public class GameWait {
                         remainSecond = GameBasicInfo.getGame.reduceTime();
                         isReduced[0] = true;
                     }
-                    String titleMain = ChatColor.AQUA+String.valueOf(playerNow)+" "+ChatColor.WHITE+"/ "+ChatColor.AQUA+GameBasicInfo.getGame.maxPlayer();
-                    String titleSub = ChatColor.GREEN+"游戏即将开始..."+ InfoCountDown.getRemainSecondString(remainSecond);
+                    TextComponent textComponent = new TextComponent(InfoCountDown.getRemainSecondString(remainSecond));
+                    Sound sound = Sound.valueOf(Main.getConfig.getString("countdownSound"));
                     Main.instance.getServer().getOnlinePlayers().forEach(player -> {
-                        Sound sound = Sound.valueOf(Main.getConfig.getString("countdownSound"));
-                        player.sendTitle(titleMain,titleSub);
-                        player.playSound(player.getLocation(),sound,1.0f,1.0f);
+                        if(remainSecond <= 10 || remainSecond % 10 == 0){
+                         player.sendMessage(ChatColor.YELLOW +"游戏将在"+InfoCountDown.getRemainSecondString(remainSecond)+ChatColor.YELLOW+"秒后开始！");
+                         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, textComponent);
+                         player.playSound(player.getLocation(),sound,1.0f,1.0f);
+                    }
                     });
                     remainSecond--;
                 }
